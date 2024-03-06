@@ -3,8 +3,8 @@ import disnake
 from disnake.ext import commands
 from os import getenv
 
-# prefix > for commands
-bot: commands.Bot = commands.Bot(">")
+# prefix > for commands, and all intents
+bot: commands.Bot = commands.Bot(">", intents=disnake.Intents.all())
 
 @bot.command(name="echo")
 async def echo(ctx: commands.Context, *text: list[str]):
