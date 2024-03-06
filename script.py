@@ -10,7 +10,7 @@ print("[Python] Bot started!")
 bot: commands.Bot = commands.Bot(">", intents=disnake.Intents.all())
 
 @bot.command(name="echo")
-async def echo(ctx: commands.Context, *text: list[str]):
+async def echo(ctx: commands.Context, *text):
     await ctx.send(" ".join(text))
 
 @bot.event
