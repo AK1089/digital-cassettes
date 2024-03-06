@@ -3,6 +3,9 @@ import disnake
 from disnake.ext import commands
 from os import getenv
 
+# lets us know in the console (for manual runs) that we're in
+print("[Python] Bot started!")
+
 # prefix > for commands, and all intents
 bot: commands.Bot = commands.Bot(">", intents=disnake.Intents.all())
 
