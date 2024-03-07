@@ -4,6 +4,7 @@ echo -e "Now running shell script \033[0;31;1mfetch.sh\033[0m."
 
 cd /home/pi/cassette-project
 rm -f script.py
+sleep .5
 
 echo -e -n "Downloading latest version of \033[0;31;1mscript.py...\033[0m"
 
