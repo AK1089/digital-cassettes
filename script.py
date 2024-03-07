@@ -49,5 +49,6 @@ async def on_command_error(ctx: commands.Context, error):
 @bot.event
 async def on_ready():
     bot.remove_command("help")
+    bot.get_channel(855583310301888542).send("Startup process successful!")
 
 bot.run(getenv("DISCORD_BOT_TOKEN"))
