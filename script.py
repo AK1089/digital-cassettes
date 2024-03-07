@@ -9,7 +9,9 @@ from datetime import datetime
 print("[Python] Bot started!")
 
 # prefix > for commands, and all intents
-bot: commands.Bot = commands.Bot(">", intents=disnake.Intents.all())
+bot: commands.Bot = commands.Bot(">", intents=disnake.Intents.all(),
+                                 activity=disnake.Activity(type=disnake.ActivityType.playing, name=f"Rebooted {datetime.now():%H:%M%S}"))
+
 
 # repeats what you say
 @bot.command(name="echo")
@@ -50,6 +52,5 @@ async def on_command_error(ctx: commands.Context, error):
 @bot.event
 async def on_ready():
     bot.remove_command("help")
-    bot.change_presence(status=disnake.Status.online, activity=disnake.Game(f"Rebooted {datetime.now():%H:%M%S}"))
 
 bot.run(getenv("DISCORD_BOT_TOKEN"))
