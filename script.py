@@ -3,6 +3,7 @@ import disnake
 from disnake.ext import commands
 from os import getenv, system
 from sys import exit
+from datetime import datetime
 
 # lets us know in the console (for manual runs) that we're in
 print("[Python] Bot started!")
@@ -49,5 +50,6 @@ async def on_command_error(ctx: commands.Context, error):
 @bot.event
 async def on_ready():
     bot.remove_command("help")
+    bot.change_presence(status=disnake.Status.online, activity=disnake.Game(f"Rebooted {datetime.now():%H:%M%S}"))
 
 bot.run(getenv("DISCORD_BOT_TOKEN"))
