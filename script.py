@@ -10,7 +10,7 @@ print("[Python] Bot started!")
 
 # prefix > for commands, and all intents
 bot: commands.Bot = commands.Bot(">", intents=disnake.Intents.all(),
-                                 activity=disnake.Activity(type=disnake.ActivityType.playing, name=f"Rebooted {datetime.now():%H:%M%S}"))
+                                 activity=disnake.Activity(type=disnake.ActivityType.playing, name=f"Rebooted {datetime.now():%H:%M:%S}"))
 
 
 # repeats what you say
