@@ -1,4 +1,4 @@
-# a very very basic bot
+# a very very basic bot designed to update the currently executing script
 import disnake
 from disnake.ext import commands
 from os import getenv, system
