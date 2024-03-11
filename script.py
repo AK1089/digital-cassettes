@@ -1,5 +1,8 @@
-# nothing in here for now. I just want to see if this runs
+# writes a new file every 10 seconds
+from time import sleep
 
-with open("dummy_file.txt", "w+") as f:
-    pass
-
+i = 0
+while (i := i + 1):
+    with open(f"dummy_file_{i}.txt", "w+") as f:
+        pass
+    sleep(10)
