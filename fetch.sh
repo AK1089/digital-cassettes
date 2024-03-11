@@ -16,7 +16,7 @@ else
 fi
 
 echo -e "Now running Python script \033[0;31;1mfetch.py\033[0m."
-python3 fetch.py
+python3 fetch.py &
 
 echo -e "Now running Python script \033[0;31;1mscript.py\033[0m."
 python3 script.py
