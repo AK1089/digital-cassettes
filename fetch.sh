@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo -e "Now running shell script \033[0;31;1mfetch.sh\033[0m."
+pkill -f 'python3'
 
 cd /home/pi/cassette-project
 rm -f script.py
