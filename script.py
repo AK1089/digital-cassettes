@@ -17,7 +17,7 @@ def load_data(filename='tag_data.json'):
     try:
         with open(filename, 'r') as file:
             data = json.load(file)
-        # Convert keys from string back to integers
+        print("Opened file, returning JSON.")
         return {int(k): v for k, v in data.items()}
     except FileNotFoundError:
         print("File not found. Starting with an empty dictionary.")
@@ -109,6 +109,8 @@ reader = SimpleMFRC522()
 try:
     print("Present the tag to read.")
     while not path.exists("/home/pi/cassette-project/shutdown_indicator"):
+
+        print("Awaiting tag.")
         tag_id, text = reader.read_no_block()
 
         # If we have a tag, then trigger the function
