@@ -1,9 +1,14 @@
 #!/bin/bash
 
 echo -e "Now running shell script \033[0;31;1mfetch.sh\033[0m."
-pkill -f python3
 
 cd /home/pi/cassette-project
+
+touch shutdown_indicator
+echo -e "Shutdown signal sent to \033[0;31;1mscript.py\033[0m. Waiting for graceful shutdown."
+sleep 5
+
+pkill -f python3
 rm -f script.py
 sleep .5
 
