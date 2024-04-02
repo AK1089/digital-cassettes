@@ -71,6 +71,7 @@ tag_data: dict[int, str] = load_data()
 
 # when a tag is presented
 def on_tag_read(tag_id: int):
+    global tag_data
 
     # if it has been registered already, play the corresponding context
     if tag_id in tag_data:
