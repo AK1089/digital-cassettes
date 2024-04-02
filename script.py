@@ -115,6 +115,8 @@ while not path.exists("/home/pi/cassette-project/shutdown_indicator"):
     if tag_id is not None:
         on_tag_read(tag_id)
 
+    sleep(1)
+
 # saves the tags to a file, and cleans up GPIO pins
 print("Saving data and exiting program.")
 save_data(tag_data)
