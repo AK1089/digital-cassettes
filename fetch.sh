@@ -15,7 +15,7 @@ sleep .5
 
 echo -e -n "Downloading latest version of \033[0;31;1mscript.py...\033[0m"
 
-if wget -q --no-cache https://raw.githubusercontent.com/AK1089/digital-cassettes/main/script.py; then
+if wget -q "https://raw.githubusercontent.com/AK1089/digital-cassettes/main/script.py?$(date +%s)" -O script.py; then
     echo " succeeded!"
 else
     echo " failed."
