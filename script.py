@@ -13,14 +13,22 @@ def save_data(tag_data, filename='tag_data.json'):
         json.dump(tag_data, file)
 
 # loads it back from file
-def load_data(filename='tag_data.json') -> dict[int, str]:
+def load_data(filename='tag_data.json'):
     try:
         with open(filename, 'r') as file:
-            return json.load(file)
+            data = json.load(file)
+        # Convert keys from string back to integers
+        return {int(k): v for k, v in data.items()}
     except FileNotFoundError:
+        print("File not found. Starting with an empty dictionary.")
         return {}
     except json.JSONDecodeError:
+        print(f"Error decoding JSON from {filename}.")
         return {}
+    except ValueError:
+        print("Error converting keys to integers.")
+        return {}
+
 
 # a spotify client object to use the spotify API
 def sp_client():
