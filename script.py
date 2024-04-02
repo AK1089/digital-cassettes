@@ -3,7 +3,24 @@ from spotipy.oauth2 import SpotifyOAuth
 from time import sleep
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
-from os import getenv
+from os import getenv, path
+import json
+
+
+# saves tag data to file
+def save_data(tag_data, filename='tag_data.json'):
+    with open(filename, 'w') as file:
+        json.dump(tag_data, file)
+
+# loads it back from file
+def load_data(filename='tag_data.json') -> dict[int, str]:
+    try:
+        with open(filename, 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return {}
+    except json.JSONDecodeError:
+        return {}
 
 # a spotify client object to use the spotify API
 def sp_client():
@@ -50,11 +67,10 @@ def get_current_playing_context_uri(spotify_client=sp):
 
 
 # stores the mapping of tag data to Spotify URIs
-tag_data: dict[int, str] = {}
+tag_data: dict[int, str] = load_data
 
 # when a tag is presented
 def on_tag_read(tag_id: int):
-    print(f"Tag detected with ID: {tag_id}")
 
     # if it has been registered already, play the corresponding context
     if tag_id in tag_data:
@@ -75,23 +91,24 @@ def on_tag_read(tag_id: int):
             print(f"Registered tag as [{context_uri}] (plays {spotify_url}).")
             tag_data[tag_id] = context_uri
 
-    # wait to avoid
-    sleep(5)
+    # wait to avoid repeatedly playing
+    sleep(2)
 
 # reader object from the RFID reader library
 reader = SimpleMFRC522()
 
 try:
-
-    # continually tries to get the tag ID
     print("Present the tag to read.")
-    while True:
+    while not path.exists("/home/pi/cassette-project/shutdown_indicator"):
         tag_id, text = reader.read_no_block()
 
-        # if we have one, then trigger the function
+        # If we have a tag, then trigger the function
         if tag_id is not None:
             on_tag_read(tag_id)
 
-# when done, clean up the pins
 finally:
+
+    # saves the tags to a file, and cleans up GPIO pins
+    print("Saving data and exiting program.")
+    save_data(tag_data)
     GPIO.cleanup()
