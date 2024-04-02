@@ -67,7 +67,7 @@ def get_current_playing_context_uri(spotify_client=sp):
 
 
 # stores the mapping of tag data to Spotify URIs
-tag_data: dict[int, str] = load_data
+tag_data: dict[int, str] = load_data()
 
 # when a tag is presented
 def on_tag_read(tag_id: int):
