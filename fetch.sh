@@ -10,6 +10,7 @@ sleep 5
 
 pkill -f python3
 rm -f script.py
+rm -f shutdown_indicator
 sleep .5
 
 echo -e -n "Downloading latest version of \033[0;31;1mscript.py...\033[0m"
