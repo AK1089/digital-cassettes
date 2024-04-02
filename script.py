@@ -117,8 +117,6 @@ try:
         if tag_id is not None:
             on_tag_read(tag_id)
 
-finally:
-
     # saves the tags to a file, and cleans up GPIO pins
     print("Saving data and exiting program.")
     save_data(tag_data)
