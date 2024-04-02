@@ -99,6 +99,7 @@ def on_tag_read(tag_id: int):
         else:
             print(f"Registered tag as [{context_uri}] (plays {spotify_url}).")
             tag_data[tag_id] = context_uri
+            save_data(tag_data)
 
     # wait to avoid repeatedly playing
     sleep(2)
