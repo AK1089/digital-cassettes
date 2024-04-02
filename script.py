@@ -106,18 +106,16 @@ def on_tag_read(tag_id: int):
 # reader object from the RFID reader library
 reader = SimpleMFRC522()
 
-try:
-    print("Present the tag to read.")
-    while not path.exists("/home/pi/cassette-project/shutdown_indicator"):
+print("Present the tag to read.")
+while not path.exists("/home/pi/cassette-project/shutdown_indicator"):
+    print("Awaiting tag.")
+    tag_id, text = reader.read_no_block()
 
-        print("Awaiting tag.")
-        tag_id, text = reader.read_no_block()
+    # If we have a tag, then trigger the function
+    if tag_id is not None:
+        on_tag_read(tag_id)
 
-        # If we have a tag, then trigger the function
-        if tag_id is not None:
-            on_tag_read(tag_id)
-
-    # saves the tags to a file, and cleans up GPIO pins
-    print("Saving data and exiting program.")
-    save_data(tag_data)
-    GPIO.cleanup()
+# saves the tags to a file, and cleans up GPIO pins
+print("Saving data and exiting program.")
+save_data(tag_data)
+GPIO.cleanup()
