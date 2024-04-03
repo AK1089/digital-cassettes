@@ -114,7 +114,12 @@ while not path.exists("/home/pi/cassette-project/shutdown_indicator"):
 
     # If we have a tag, then trigger the function
     if tag_id is not None:
-        on_tag_read(tag_id)
+        # creates a spotify client and gets my primary device ID
+        try:
+            on_tag_read(tag_id)
+        except spotipy.exceptions.SpotifyException:
+            sp = sp_client()
+            on_tag_read(tag_id)
 
     sleep(1)
 
