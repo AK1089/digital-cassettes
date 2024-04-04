@@ -57,7 +57,11 @@ SPOTIFY_DEVICE_ID = sp.devices()["devices"][0]["id"]
 
 # starts spotify playback based on a provided tag with an API call
 def start_spotify_playback(tag_id: int, spotify_client=sp, device=SPOTIFY_DEVICE_ID) -> None:
-    spotify_client.start_playback(device_id=device, context_uri=tag_data[tag_id])
+    try:
+        spotify_client.start_playback(device_id=device, context_uri=tag_data[tag_id])
+    except spotipy.exceptions.SpotifyException:
+        pass
+    
 
 
 # does the inverse: gets the context URI based on the user's current listening activity
@@ -116,10 +120,10 @@ while not path.exists("/home/pi/cassette-project/shutdown_indicator"):
     if tag_id is not None:
         # creates a spotify client and gets my primary device ID
         try:
-            on_tag_read(tag_id)
-        except spotipy.exceptions.SpotifyException:
             sp = sp_client()
             on_tag_read(tag_id)
+        except spotipy.exceptions.SpotifyException:
+            pass
 
     sleep(1)
 
