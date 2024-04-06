@@ -1,5 +1,4 @@
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
+from spotipy import Spotify, SpotifyOAuth
 from time import sleep
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
