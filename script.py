@@ -44,10 +44,10 @@ def sp_client():
         client_id=SPOTIPY_CLIENT_ID,
         client_secret=SPOTIPY_CLIENT_SECRET,
         redirect_uri=SPOTIPY_REDIRECT_URI,
-        scope=SPOTIFY_SCOPE,
-        refresh_token=SPOTIPY_REFRESH_TOKEN,
-        requests_timeout=10
+        scope=SPOTIFY_SCOPE
     )
+
+    auth_manager.token_info = auth_manager.refresh_access_token(SPOTIPY_REFRESH_TOKEN)
 
     # spotipy client which automatically handles token refresh when needed
     return Spotify(auth_manager=auth_manager)
