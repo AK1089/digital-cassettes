@@ -34,20 +34,24 @@ def load_data(filename='tag_data.json'):
 def sp_client():
 
     # authentication parameters!
-    SPOTIFYSCOPE = "playlist-modify-private playlist-read-private playlist-modify-public playlist-read-collaborative user-read-playback-state user-modify-playback-state user-read-currently-playing user-library-modify user-library-read user-read-playback-position user-read-recently-played user-top-read app-remote-control streaming user-follow-modify user-follow-read"
+    SPOTIFY_SCOPE = "playlist-modify-private playlist-read-private playlist-modify-public playlist-read-collaborative user-read-playback-state user-modify-playback-state user-read-currently-playing user-library-modify user-library-read user-read-playback-position user-read-recently-played user-top-read app-remote-control streaming user-follow-modify user-follow-read"
     SPOTIPY_CLIENT_ID = getenv("SPOTIPY_CLIENT_ID")
     SPOTIPY_CLIENT_SECRET = getenv("SPOTIPY_CLIENT_SECRET")
     SPOTIPY_REFRESH_TOKEN = getenv("SPOTIPY_REFRESH_TOKEN")
+    SPOTIPY_REDIRECT_URI = "https://avishspf.com/"
 
     # authorisation with OAuth2
-    auth_manager = SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID,
-                                client_secret=SPOTIPY_CLIENT_SECRET,
-                                redirect_uri="https://avishspf.com/",
-                                scope=SPOTIFYSCOPE)
+    auth_manager = SpotifyOAuth(
+        client_id=SPOTIPY_CLIENT_ID,
+        client_secret=SPOTIPY_CLIENT_SECRET,
+        redirect_uri=SPOTIPY_REDIRECT_URI,
+        scope=SPOTIFY_SCOPE,
+        refresh_token=SPOTIPY_REFRESH_TOKEN,
+        requests_timeout=10
+    )
 
-    # creates and returns a client object using the provided token
-    token_info = auth_manager.refresh_access_token(SPOTIPY_REFRESH_TOKEN)
-    return spotipy.Spotify(token_info["access_token"])
+    # spotipy client which automatically handles token refresh when needed
+    return Spotify(auth_manager=auth_manager)
     
 
 # creates a spotify client and gets my primary device ID
@@ -118,12 +122,10 @@ while not path.exists("/home/pi/cassette-project/shutdown_indicator"):
 
     # If we have a tag, then trigger the function
     if tag_id is not None:
-        # creates a spotify client and gets my primary device ID
         try:
-            sp = sp_client()
             on_tag_read(tag_id)
-        except spotipy.exceptions.SpotifyException:
-            pass
+        except Exception as e:
+            print(f"Encountered exception: {e}")
 
     sleep(1)
 
