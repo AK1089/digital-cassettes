@@ -4,6 +4,7 @@ import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 from os import getenv, path
 import json
+from time import time
 
 
 # saves tag data to file
@@ -83,10 +84,17 @@ def get_current_playing_context_uri(spotify_client=sp):
 
 # stores the mapping of tag data to Spotify URIs
 tag_data: dict[int, str] = load_data()
+last_tag_read = (0, 0)
 
 # when a tag is presented
 def on_tag_read(tag_id: int):
-    global tag_data
+    global tag_data, last_tag_read
+
+    # log last instance to avoid repeatedly playing
+    if tag_id == last_tag_read[0] and time() - last_tag_read[1] < 5:
+        last_tag_read = (tag_id, time())
+        return
+    last_tag_read = (tag_id, time())
 
     # if it has been registered already, play the corresponding context
     if tag_id in tag_data:
@@ -108,8 +116,6 @@ def on_tag_read(tag_id: int):
             tag_data[tag_id] = context_uri
             save_data(tag_data)
 
-    # wait to avoid repeatedly playing
-    sleep(2)
 
 # reader object from the RFID reader library
 reader = SimpleMFRC522()
