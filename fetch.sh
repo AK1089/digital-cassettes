@@ -22,8 +22,13 @@ else
     exit 1
 fi
 
+raspi-gpio set 23 op
+raspi-gpio set 23 dh
+
 echo -e "Now running Python script \033[0;31;1mscript.py\033[0m."
 python3 script.py &
 
 echo -e "Now running Python script \033[0;31;1mfetch.py\033[0m."
 python3 fetch.py
+
+raspi-gpio set 23 dl
