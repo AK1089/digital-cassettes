@@ -5,8 +5,27 @@ from mfrc522 import SimpleMFRC522
 from os import getenv, path
 import json
 from time import time
+from gpiozero import LED
 
+# status indicator
+led = LED(23)
+led.on()
 
+# flashes the status indicator the provided number of times
+def flash(count=1):
+    try:
+
+        # flashes count times
+        for i in range(count):
+            led.off()
+            sleep(0.2)
+            led.on()
+            sleep(0.3)
+
+    # makes sure the indicator remains on at the end
+    finally:
+        led.on()
+        
 # saves tag data to file
 def save_data(tag_data, filename='tag_data.json'):
     with open(filename, 'w') as file:
@@ -100,6 +119,7 @@ def on_tag_read(tag_id: int):
     if tag_id in tag_data:
         print("Found registered tag ID - starting playback!")
         start_spotify_playback(tag_id)
+        flash(1)
 
     # otherwise, attempt to register the tag
     else:
@@ -115,6 +135,8 @@ def on_tag_read(tag_id: int):
             print(f"Registered tag as [{context_uri}] (plays {spotify_url}).")
             tag_data[tag_id] = context_uri
             save_data(tag_data)
+            flash(3)
+
 
 
 # reader object from the RFID reader library
