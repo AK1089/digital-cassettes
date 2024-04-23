@@ -157,6 +157,8 @@ while not path.exists("/home/pi/cassette-project/shutdown_indicator"):
     # when the cassette is removed, pause the playback
     elif time() - last_tag_read[1] < 5:
         sp.pause_playback()
+        flash(2)
+        sleep(1)
 
     sleep(1)
 
