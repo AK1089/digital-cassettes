@@ -154,6 +154,16 @@ while not path.exists("/home/pi/cassette-project/shutdown_indicator"):
         except Exception as e:
             print(f"Encountered exception: {e}")
 
+    
+    # when the cassette is removed, pause the playback
+    elif time() - last_tag_read[1] < 5:
+        try:
+            sp.pause_playback()
+            flash(2)
+            last_tag_read = (last_tag_read[0], 0)
+        except Exception as e:
+            print(f"Encountered exception: {e}")
+
     sleep(1)
 
 # saves the tags to a file, and cleans up GPIO pins
